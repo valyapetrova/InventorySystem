@@ -1,18 +1,20 @@
 package com.sirma.InventorySystem;
 
+import com.sirma.InventorySystem.Items.ElectronicsItem;
+import com.sirma.InventorySystem.Items.FragileItem;
+import com.sirma.InventorySystem.Items.GroceryItem;
+import com.sirma.InventorySystem.Items.InventoryItem;
+
 import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class FileManagement extends InventoryItem {
 
     File file = new File("C:/Users/valya/OneDrive/inventory.txt");
 
-    List<InventoryItem> inventoryItems = new ArrayList<>();
+    public List<InventoryItem> inventoryItems = new ArrayList<>();
 
     public FileManagement(String name, String type, int quantity, double price, LocalDate expire, int ID) {
         super(name, type, quantity, price, expire, ID);
