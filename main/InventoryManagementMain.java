@@ -21,17 +21,17 @@ public class InventoryManagementMain{
             switch (input) {
                 case "1":
                     //List of all inventory items
-                    ob.writeToFile();
+                    ob.createFile();
                     ob.readFromFile();
-                    ob.viewInventoryItems();
                     System.out.println();
                     System.out.println("Would you like to place an order? [Y][N]");
-                    if (sc.nextLine().equals("Y")) {
+                    String orderInput = sc.nextLine();
+                    if (orderInput.equalsIgnoreCase("Y")) {
                         menu();
-                        return;
-                    }else{
-                        break;
+                    }else if (orderInput.equalsIgnoreCase("N")){
+                        start = false;
                     }
+                    break;
                 case "2":
                     //items categorized
                     in.category(ob.inventoryItems);

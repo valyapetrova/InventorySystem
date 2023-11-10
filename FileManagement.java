@@ -11,9 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileManagement extends InventoryItem {
-
-    File file = new File("C:/Users/valya/OneDrive/inventory.txt");
-
+    
     public List<InventoryItem> inventoryItems = new ArrayList<>();
 
     public FileManagement(String name, String type, int quantity, double price, LocalDate expire, int ID) {
@@ -44,29 +42,42 @@ public class FileManagement extends InventoryItem {
         }
         isBreakable();
     }
-
-    public void readFromFile(){
-        if(file.exists()){
-            try {
-                ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
-                in.read();
-                in.close();
-            } catch (FileNotFoundException e) {
-                System.out.println("File not found");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }}
-        else {
-            System.out.println("File does not exist");
+    public void createFile() {
+        try {
+            String filePath = "C:/Users/valya/OneDrive/Desktop/SirmaAcademy/Sirma/src/com/sirma/InventorySystem/inventory.txt";
+            File file = new File(filePath);
+            // Check if the file already exists
+            if (file.exists()) {
+                System.out.println("File already exists.");
+                writeToFile();
+            } else if (file.createNewFile()) {
+                System.out.println("File created successfully.");
+            } else {
+                System.out.println("File creation failed.");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Error creating file: " + e.getMessage(), e);
         }
-
     }
-    public void writeToFile(){
-        try{ ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
-            out.writeObject(inventoryItems);
 
-        }catch(IOException e){
-            throw new RuntimeException();
+    public void readFromFile() {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("C:/Users/valya/OneDrive/Desktop/SirmaAcademy/Sirma/src/com/sirma/InventorySystem/inventory.txt"))) {
+            inventoryItems = (List<InventoryItem>) in.readObject();
+            for (InventoryItem item : inventoryItems) {
+                System.out.println("Name: " + item.getName() + ", Price: " + item.getPrice() + ", Quantity: " + item.getQuantity() + ", Expire Date: " + item.getExpire());
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void writeToFile(){
+            try {
+                ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("C:/Users/valya/OneDrive/Desktop/SirmaAcademy/Sirma/src/com/sirma/InventorySystem/inventory.txt"));
+                out.writeObject(inventoryItems);
+
+            } catch (IOException e) {
+                throw new RuntimeException();
         }
     }
     public void viewInventoryItems() {
